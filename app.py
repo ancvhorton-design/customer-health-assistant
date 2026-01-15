@@ -32,6 +32,26 @@ documentacion = st.slider("Documentación entregada a tiempo (%)", 0, 100, 98)
 st.divider()
 
 # -----------------------------
+# RESUMEN EJECUTIVO
+# -----------------------------
+st.subheader("📌 Resumen del cliente")
+
+st.write(
+    f"Puntualidad: **{puntualidad}%** | "
+    f"NPS: **{nps}** | "
+    f"Quejas: **{quejas}** | "
+    f"Incidentes: **{incidentes}** | "
+    f"Rechazos: **{rechazos}%**"
+)
+
+st.caption(
+    "Este resumen permite una lectura rápida del estado del cliente "
+    "antes de analizar el nivel de riesgo."
+)
+
+st.divider()
+
+# -----------------------------
 # LÓGICA DE RIESGO
 # -----------------------------
 riesgo = 0
@@ -61,6 +81,9 @@ if documentacion < 90:
     riesgo += 1
     causas.append("entrega tardía de documentación")
 
+if not causas:
+    causas.append("no se detectaron anomalías relevantes")
+
 # -----------------------------
 # CLASIFICACIÓN
 # -----------------------------
@@ -77,6 +100,11 @@ else:
 st.subheader("🚦 Nivel de riesgo del cliente")
 st.markdown(f"### {nivel}")
 
+st.caption(
+    "El nivel de riesgo se calcula combinando múltiples señales. "
+    "Una sola métrica no define por sí sola el estado del cliente."
+)
+
 # -----------------------------
 # DIAGNÓSTICO CONVERSACIONAL
 # -----------------------------
@@ -85,12 +113,12 @@ st.subheader("🧠 Diagnóstico del asistente")
 if nivel == "🟢 Bajo":
     st.write(
         "El cliente presenta un **comportamiento estable**. "
-        "No se detectan señales tempranas de riesgo en las métricas analizadas."
+        "Las métricas actuales no muestran señales tempranas de riesgo."
     )
 
 elif nivel == "🟡 Medio":
     st.write(
-        "He detectado **señales tempranas de riesgo** que aún no se traducen en una queja formal. "
+        "Se detectan **señales tempranas de riesgo** que aún no se traducen en una queja formal. "
         "Las principales alertas están relacionadas con: "
         f"**{', '.join(causas)}**."
     )
@@ -133,9 +161,14 @@ else:
     )
 
 # -----------------------------
-# CIERRE DEL ASISTENTE
+# VISIÓN FUTURA
 # -----------------------------
 st.divider()
+st.info(
+    "🚀 Siguiente paso: integrar este modelo con datos históricos y alertas "
+    "automáticas para detectar riesgo sin intervención manual."
+)
+
 st.write(
     "💡 **Nota:** Este asistente integra múltiples señales operativas en una sola lectura "
     "para apoyar la toma de decisiones preventivas y reducir churn reactivo."
